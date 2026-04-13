@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery } from "convex/react";
-import { useRouter } from "next/navigation";
+import { useClerk } from "@clerk/nextjs";
 import Image from "next/image";
 import { api } from "@/convex/_generated/api";
 import type { Doc, Id } from "@/convex/_generated/dataModel";
@@ -32,15 +32,11 @@ const COLUMNS: KanbanColumnDef[] = [
 ];
 
 export function AdminDashboard({ email }: { email: string }) {
-  const router = useRouter();
+  const { signOut } = useClerk();
   const leads = useQuery(api.leads.listLeads);
   const updateStatus = useMutation(api.leads.updateLeadStatus);
 
-  const logout = async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/admin/login");
-    router.refresh();
-  };
+  const logout = () => signOut({ redirectUrl: "/admin/login" });
 
   // Map Convex docs into the Kanban's generic item shape. All
   // domain-specific projection lives here — the Kanban component

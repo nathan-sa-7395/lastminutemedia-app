@@ -5,5 +5,4 @@ out
 .env.local
 .DS_Store
 *.log
-convex/_generated
 .netlify/

@@ -1,27 +1,18 @@
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { getSessionToken } from "@/lib/session";
-import { getConvexServerClient } from "@/lib/convexServer";
-import { api } from "@/convex/_generated/api";
 import { AdminDashboard } from "./AdminDashboard";
 
 /**
- * Server component gate for the CRM. Resolves the HTTP-only session
- * cookie against Convex before rendering the (client) dashboard.
+ * Server component gate for the CRM.
+ * Clerk middleware already blocks unauthenticated requests, but we
+ * double-check here and pull the user's email to pass to the dashboard.
  */
 export default async function AdminPage() {
-  const token = await getSessionToken();
-  if (!token) redirect("/admin/login");
+  const { userId } = await auth();
+  if (!userId) redirect("/admin/login");
 
-  let email: string | null = null;
-  try {
-    const convex = getConvexServerClient();
-    const session = await convex.query(api.auth.getSession, { token });
-    if (session) email = session.email;
-  } catch {
-    /* fall through */
-  }
-
-  if (!email) redirect("/admin/login");
+  const user = await currentUser();
+  const email = user?.emailAddresses?.[0]?.emailAddress ?? "";
 
   return <AdminDashboard email={email} />;
 }
