@@ -15,7 +15,8 @@ export function BookingStep({ data, update }: Props) {
         Book a time to be contacted
       </h2>
       <p className="mb-6 text-sm text-zinc-400">
-        Pick a slot and share your contact info.
+        Pick a slot and share your contact info. All times are{" "}
+        <span className="text-zinc-300">Eastern Time (ET)</span>.
       </p>
 
       <div className="mb-6 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4">

@@ -128,8 +128,9 @@ export function Calendar({ value, onChange }: CalendarProps) {
       {/* Time slots */}
       {selectedDay && (
         <div>
-          <div className="mb-2 text-xs uppercase tracking-wider text-zinc-400">
-            Available times
+          <div className="mb-2 flex items-center justify-between">
+            <span className="text-xs uppercase tracking-wider text-zinc-400">Available times</span>
+            <span className="text-xs text-zinc-500">Eastern Time (ET)</span>
           </div>
           <div className="grid grid-cols-3 gap-2">
             {TIME_SLOTS.map((slot) => {

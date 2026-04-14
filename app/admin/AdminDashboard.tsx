@@ -100,10 +100,11 @@ function LeadDetails({ lead }: { lead: Lead }) {
       <Row label="Interests" value={lead.interests.join(", ")} />
       <Row
         label="Booked for"
-        value={booking.toLocaleString(undefined, {
+        value={`${booking.toLocaleString("en-US", {
           dateStyle: "medium",
           timeStyle: "short",
-        })}
+          timeZone: "America/New_York",
+        })} ET`}
       />
     </dl>
   );
